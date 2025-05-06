@@ -98,7 +98,12 @@ open class BaseCoordinator<RouteType: Route, TransitionType: TransitionProtocol>
     open func prepareTransition(for route: RouteType) -> TransitionType {
         fatalError("Please override the \(#function) method.")
     }
-    
+
+    @MainActor
+    open func prepareTransitionMain(for route: RouteType) -> TransitionType {
+        self.prepareTransition(for: route)
+    }
+
     public func registerParent(_ presentable: Presentable & AnyObject) {
         let previous = removeParentChildren
         removeParentChildren = { [weak presentable] in
